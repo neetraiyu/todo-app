@@ -23,3 +23,13 @@ require __DIR__.'/auth.php';
 Route::get('admin/dashboard',[EmployeeController::class,'index'])->middleware(['auth','admin'])->name('admin/dashboard.view');
 Route::get('/task_01', [EmployeeController::class, 'create'])->name('task_01.create');
 Route::post('/task_01', [EmployeeController::class, 'store'])->name('task_01.store');
+// Route::get('/tasks', [EmployeeController::class, 'show'])->name('tasks.index');
+// Route::get('/tasks/{id}/edit', [EmployeeController::class, 'edit'])->name('tasks.edit');
+// Route::patch('/tasks/{id}', [EmployeeController::class, 'update'])->name('tasks.update');
+// Route::delete('/tasks/{id}', [EmployeeController::class, 'destroy'])->name('tasks.destroy');
+
+Route::get('/tasks', [EmployeeController::class, 'show'])->name('tasks.index');
+Route::get('/tasks/{id}/edit', [EmployeeController::class, 'edit'])->name('tasks.edit');
+Route::patch('/tasks/{id}', [EmployeeController::class, 'update'])->name('tasks.update');
+Route::delete('/tasks/{id}', [EmployeeController::class, 'destroy'])->name('tasks.destroy');
+

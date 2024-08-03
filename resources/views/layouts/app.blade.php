@@ -20,11 +20,25 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    @if(auth()->check())
+                        @if(auth()->user()->usertype === 'admin')
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                                {{ __('Admin Dashboard') }}
+                            </h2>
+                        @else
+                            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                                {{ __('User Dashboard') }}
+                            </h2>
+                        @endif
+                    @else
+                        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                            {{ __('Dashboard') }}
+                        </h2>
+                    @endif
+                </div>
+            </header>
             @endisset
 
             <!-- Page Content -->

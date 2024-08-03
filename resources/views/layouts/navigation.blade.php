@@ -15,9 +15,18 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('task_01.create')" :active="request()->routeIs('task_01.create')">
-                        {{ __('ToDo List') }}
-                    </x-nav-link>
+
+                    @auth
+                        @if(auth()->user()->usertype === 'admin')
+                            <x-nav-link :href="route('task_01.create')" :active="request()->routeIs('task_01.create')">
+                                {{ __('ToDo List') }}
+                            </x-nav-link>
+                        @endif
+
+                        <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.index')">
+                            {{ __('List') }}
+                        </x-nav-link>
+                    @endauth
                 </div>
             </div>
 
