@@ -33,3 +33,5 @@ Route::get('/tasks/{id}/edit', [EmployeeController::class, 'edit'])->name('tasks
 Route::patch('/tasks/{id}', [EmployeeController::class, 'update'])->name('tasks.update');
 Route::delete('/tasks/{id}', [EmployeeController::class, 'destroy'])->name('tasks.destroy');
 
+Route::get('auth/register-admin',[EmployeeController::class,'regadmin']);
+

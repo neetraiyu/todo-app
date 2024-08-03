@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    public function regadmin(){
+        return view('auth.register-admin');
+    }
+
     public function index()
     {
         return view('admin.dashboard');
