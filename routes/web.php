@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,4 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/tasks/{id}/reject', [EmployeeController::class, 'reject'])->name('tasks.reject');
 });
 
-Route::get('auth/register-admin', [EmployeeController::class, 'regadmin']);
+Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('register', [RegisteredUserController::class, 'store']);
+
+Route::get('register-admin', [RegisteredUserController::class, 'createAdmin'])->name('register-admin');
+Route::post('register-admin', [RegisteredUserController::class, 'storeAdmin']);

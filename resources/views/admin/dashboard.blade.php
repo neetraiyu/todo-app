@@ -8,12 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 
-    <div class="py-12 m-5">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-primary p-4">
+    <div class="py-12 m-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-primary p-4 bg-opacity-25">
             <div class="bg-light overflow-hidden shadow-sm sm:rounded-lg p-5 ">
-                <h1 class="text-center my-3 pb-3">Task List</h1>
+                <h1 class="text-center my-3 pb-1 pt-1 bg-primary bg-opacity-25 rounded-pill">Task List</h1>
 
-                <table class="table table-striped table-dark">
+                <table class="table table-striped table-primary table-hover">
                     <thead>
                         <tr>
                             <th>#</th>

@@ -15,13 +15,13 @@
             </div>
         @endif
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-light overflow-hidden shadow-sm sm:rounded-lg">
-                <h1 class="text-center my-3 pb-3">Tasks List</h1>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-success p-4 bg-opacity-25">
+            <div class="bg-light overflow-hidden shadow-sm sm:rounded-lg p-5 ">
+                <h1 class="text-center my-3 ms-0 me-0 bg-success bg-opacity-25 rounded-pill">Tasks List</h1>
 
                 <!-- Tasks table -->
-                <div class="table-responsive p-5">
-                    <table class="table table-striped">
+                <div class="table-responsive">
+                    <table class="table table-striped table-success table-hover">
                         <thead>
                             <tr>
                                 <th>#</th>
