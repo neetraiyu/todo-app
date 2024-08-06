@@ -13,9 +13,5 @@ class EmployeeModel extends Model
     protected $table = 'employees';
 
     // Define the fillable properties for mass assignment
-    protected $fillable = [
-        'title',
-        'task',
-        'message',
-    ];
+    protected $fillable = ['title', 'task', 'message', 'user_id', 'status'];
 }

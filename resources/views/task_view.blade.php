@@ -28,7 +28,8 @@
                                 <th>Title</th>
                                 <th>Task</th>
                                 <th>Message</th>
-                                <th>Actions</th>
+                                <th>Status</th>
+                                <th>Show</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,19 +39,25 @@
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->task }}</td>
                                     <td>{{ $task->message }}</td>
+                                    <td>{{ ucfirst($task->status) }}</td>
                                     <td>
-                                        <!-- Action buttons (e.g., edit, delete) -->
-                                        <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
+                                        @if ($task->status == 'pending')
+                                            <!-- Accept button -->
+                                            <form action="{{ route('tasks.accept', $task->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                                            </form>
+                                            <!-- Reject button -->
+                                            <form action="{{ route('tasks.reject', $task->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-warning btn-sm">Reject</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">No tasks found</td>
+                                    <td colspan="6" class="text-center">No tasks found</td>
                                 </tr>
                             @endforelse
                         </tbody>
