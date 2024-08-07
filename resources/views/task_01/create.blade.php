@@ -16,9 +16,9 @@
             </div>
         @endif
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-light overflow-hidden shadow-sm sm:rounded-lg">
-                <h1 class="text-center pt-2">Create Task</h1>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-dark p-4 bg-opacity-25">
+            <div class="bg-light overflow-hidden shadow-sm sm:rounded-lg p-5 ">
+                <h1 class="text-center my-3 ms-0 me-0 bg-dark bg-opacity-25 rounded-pill">Create Task</h1>
 
                 <!-- Task creation form -->
                 <form method="POST" action="{{ route('task_01.store') }}" class="p-5">

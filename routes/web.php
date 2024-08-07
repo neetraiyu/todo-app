@@ -41,3 +41,7 @@ Route::post('register', [RegisteredUserController::class, 'store']);
 
 Route::get('register-admin', [RegisteredUserController::class, 'createAdmin'])->name('register-admin');
 Route::post('register-admin', [RegisteredUserController::class, 'storeAdmin']);
+
+Route::post('/tasks/{id}/complete', [EmployeeController::class, 'complete'])->name('tasks.complete');
+Route::post('/tasks/{id}/dismiss', [EmployeeController::class, 'dismiss'])->name('tasks.dismiss');
+

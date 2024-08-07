@@ -30,17 +30,38 @@ class EmployeeController extends Controller
 
     public function store(EmployeeFormRequest $request)
     {
-        // Include user_id in the validated data
-        $validatedData = $request->validated();
-        $validatedData['user_id'] = $request->user_id; // Get user_id from the form input
-        EmployeeModel::create($validatedData);
-        return redirect()->route('task_01.create')->with('success', 'Task created successfully!');
+        // // Include user_id in the validated data
+        // $validatedData = $request->validated();
+        // $validatedData['user_id'] = $request->user_id; // Get user_id from the form input
+        // EmployeeModel::create($validatedData);
+        // return redirect()->route('task_01.create')->with('success', 'Task created successfully!');
+
+        $request->validate([
+            'title' => 'required|string',
+            'task' => 'required|string',
+            'message' => 'required|string',
+            'user_id' => 'required|integer',
+            'status' => 'nullable|string', // Ensure status is included if needed
+        ]);
+
+        EmployeeModel::create([
+            'title' => $request->input('title'),
+            'task' => $request->input('task'),
+            'message' => $request->input('message'),
+            'user_id' => $request->input('user_id'),
+            'status' => $request->input('status', 'pending'), // Default to 'pending' if not provided
+        ]);
+
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully!');
+
     }
 
     public function show()
     {
-        $tasks = EmployeeModel::where('user_id', Auth::id())->get();
-        return view('task_view', ['tasks' => $tasks]);
+        $tasks = EmployeeModel::where('user_id', Auth::id())
+        ->where('status', '!=', 'rejected')
+        ->get();
+    return view('task_view', ['tasks' => $tasks]);
     }
 
     public function edit($id)
@@ -67,14 +88,34 @@ class EmployeeController extends Controller
     public function accept($id)
     {
         $task = EmployeeModel::findOrFail($id);
-        $task->update(['status' => 'accepted']);
+        $task->update(['status' => 'processing']);
         return redirect()->route('tasks.index')->with('success', 'Task accepted successfully!');
+    }
+
+    public function complete($id)
+    {
+        $task = EmployeeModel::findOrFail($id);
+        $task->update(['status' => 'completed']);
+        return redirect()->route('tasks.index')->with('success', 'Task completed successfully!');
     }
 
     public function reject($id)
     {
         $task = EmployeeModel::findOrFail($id);
-        $task->update(['status' => 'rejected']);
-        return redirect()->route('tasks.index')->with('success', 'Task rejected successfully!');
+        // Check if the current user is the assigned user
+        if ($task->user_id == Auth::id()) {
+            $task->update(['status' => 'rejected']);
+            return redirect()->route('tasks.index')->with('success', 'Task rejected successfully!');
+        }
+
+        return redirect()->route('tasks.index')->with('error', 'You are not authorized to reject this task.');
+    }
+
+    public function dismiss($id)
+    {
+        $task = EmployeeModel::findOrFail($id);
+        $task->user_id = null; // or you can delete the task if that's the intended behavior
+        $task->save();
+        return redirect()->route('tasks.index')->with('success', 'Task dismissed successfully!');
     }
 }

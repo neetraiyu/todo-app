@@ -1,3 +1,4 @@
+<!-- task_view.blade.php -->
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -29,7 +30,7 @@
                                 <th>Task</th>
                                 <th>Message</th>
                                 <th>Status</th>
-                                <th>Show</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +52,17 @@
                                             <form action="{{ route('tasks.reject', $task->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-warning btn-sm">Reject</button>
+                                            </form>
+                                        @elseif ($task->status == 'processing')
+                                            <!-- Complete button -->
+                                            <form action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary btn-sm">Complete</button>
+                                            </form>
+                                            <!-- Dismiss button -->
+                                            <form action="{{ route('tasks.dismiss', $task->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm">Dismiss</button>
                                             </form>
                                         @endif
                                     </td>
