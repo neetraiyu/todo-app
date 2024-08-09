@@ -23,10 +23,11 @@ class EmployeeController extends Controller
 
     public function create()
     {
-        // Fetch all users for the user selection dropdown
+
         $users = User::where('usertype', '!=', 'admin')->get();
         return view('task_01.create', ['users' => $users]);
     }
+    
 
     public function store(EmployeeFormRequest $request)
     {
@@ -61,7 +62,7 @@ class EmployeeController extends Controller
         $tasks = EmployeeModel::where('user_id', Auth::id())
         ->where('status', '!=', 'rejected')
         ->get();
-    return view('task_view', ['tasks' => $tasks]);
+        return view('task_view', ['tasks' => $tasks]);
     }
 
     public function edit($id)
@@ -89,14 +90,14 @@ class EmployeeController extends Controller
     {
         $task = EmployeeModel::findOrFail($id);
         $task->update(['status' => 'processing']);
-        return redirect()->route('tasks.index')->with('success', 'Task accepted successfully!');
+        return response()->json(['message' => 'Task accepted successfully!', 'status' => 'processing']);
     }
 
     public function complete($id)
     {
         $task = EmployeeModel::findOrFail($id);
         $task->update(['status' => 'completed']);
-        return redirect()->route('tasks.index')->with('success', 'Task completed successfully!');
+        return response()->json(['message' => 'Task completed successfully!', 'status' => 'completed']);
     }
 
     public function reject($id)
@@ -105,10 +106,10 @@ class EmployeeController extends Controller
         // Check if the current user is the assigned user
         if ($task->user_id == Auth::id()) {
             $task->update(['status' => 'rejected']);
-            return redirect()->route('tasks.index')->with('success', 'Task rejected successfully!');
+            return response()->json(['message' => 'Task rejected successfully!', 'status' => 'rejected']);
         }
 
-        return redirect()->route('tasks.index')->with('error', 'You are not authorized to reject this task.');
+        return response()->json(['message' => 'You are not authorized to reject this task.'], 403);
     }
 
     public function dismiss($id)

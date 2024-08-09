@@ -32,8 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/tasks/{id}/edit', [EmployeeController::class, 'edit'])->name('tasks.edit');
     Route::patch('/tasks/{id}', [EmployeeController::class, 'update'])->name('tasks.update');
     Route::delete('/tasks/{id}', [EmployeeController::class, 'destroy'])->name('tasks.destroy');
-    Route::post('/tasks/{id}/accept', [EmployeeController::class, 'accept'])->name('tasks.accept');
-    Route::post('/tasks/{id}/reject', [EmployeeController::class, 'reject'])->name('tasks.reject');
+    Route::post('/tasks/accept/{id}', [EmployeeController::class, 'accept'])->name('tasks.accept');
+    Route::post('/tasks/reject/{id}', [EmployeeController::class, 'reject'])->name('tasks.reject');
 });
 
 Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
@@ -42,6 +42,6 @@ Route::post('register', [RegisteredUserController::class, 'store']);
 Route::get('register-admin', [RegisteredUserController::class, 'createAdmin'])->name('register-admin');
 Route::post('register-admin', [RegisteredUserController::class, 'storeAdmin']);
 
-Route::post('/tasks/{id}/complete', [EmployeeController::class, 'complete'])->name('tasks.complete');
-Route::post('/tasks/{id}/dismiss', [EmployeeController::class, 'dismiss'])->name('tasks.dismiss');
+Route::post('/tasks/complete/{id}', [EmployeeController::class, 'complete'])->name('tasks.complete');
+// Route::post('/tasks/{id}/dismiss', [EmployeeController::class, 'dismiss'])->name('tasks.dismiss');
 

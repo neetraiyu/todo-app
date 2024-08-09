@@ -10,11 +10,7 @@
 
     <div class="py-12 m-5">
         <!-- Display success message -->
-        @if (session('success'))
-            <div class="alert alert-success mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
+        <div id="success-message" class="alert alert-success mb-4" style="display:none;"></div>
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-success p-4 bg-opacity-25">
             <div class="bg-light overflow-hidden shadow-sm sm:rounded-lg p-5 ">
@@ -35,7 +31,7 @@
                         </thead>
                         <tbody>
                             @forelse($tasks as $task)
-                                <tr>
+                                <tr id="task-{{ $task->id }}">
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->task }}</td>
@@ -43,27 +39,10 @@
                                     <td>{{ ucfirst($task->status) }}</td>
                                     <td>
                                         @if ($task->status == 'pending')
-                                            <!-- Accept button -->
-                                            <form action="{{ route('tasks.accept', $task->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Accept</button>
-                                            </form>
-                                            <!-- Reject button -->
-                                            <form action="{{ route('tasks.reject', $task->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-warning btn-sm">Reject</button>
-                                            </form>
+                                            <button class="btn btn-success btn-sm" onclick="updateTaskStatus({{ $task->id }}, 'accept')">Accept</button>
+                                            <button class="btn btn-warning btn-sm" onclick="updateTaskStatus({{ $task->id }}, 'reject')">Reject</button>
                                         @elseif ($task->status == 'processing')
-                                            <!-- Complete button -->
-                                            <form action="{{ route('tasks.complete', $task->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary btn-sm">Complete</button>
-                                            </form>
-                                            <!-- Dismiss button -->
-                                            <form action="{{ route('tasks.dismiss', $task->id) }}" method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger btn-sm">Dismiss</button>
-                                            </form>
+                                            <button class="btn btn-primary btn-sm" onclick="updateTaskStatus({{ $task->id }}, 'complete')">Complete</button>
                                         @endif
                                     </td>
                                 </tr>
@@ -78,4 +57,29 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function updateTaskStatus(taskId, action) {
+            $.ajax({
+                url: '/tasks/' + action + '/' + taskId,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    $('#success-message').text(response.message).show();
+                    $('#task-' + taskId + ' td:nth-child(5)').text(response.status.charAt(0).toUpperCase() + response.status.slice(1));
+                    if (response.status === 'processing') {
+                        $('#task-' + taskId + ' td:nth-child(6)').html('<button class="btn btn-primary btn-sm" onclick="updateTaskStatus(' + taskId + ', \'complete\')">Complete</button>');
+                    } else if (response.status === 'completed' || response.status === 'rejected') {
+                        $('#task-' + taskId).remove();
+                    }
+                },
+                error: function(response) {
+                    alert('Error updating task status');
+                }
+            });
+        }
+    </script>
 </x-app-layout>

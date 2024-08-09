@@ -26,9 +26,12 @@
                             </x-nav-link>
                         @endif
 
+
+                        @if(auth()->user()->usertype === 'user')
                         <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.index')">
                             {{ __('My Tasks') }}
                         </x-nav-link>
+                        @endif
                     @endauth
                 </div>
             </div>
